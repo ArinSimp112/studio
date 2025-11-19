@@ -35,34 +35,32 @@ export function ProgressChart({ assessments }: ProgressChartProps) {
     .reverse();
 
   return (
-    <div className="h-[300px] w-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart
-          data={chartData}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="date"
-            tickFormatter={(value) => format(new Date(value), 'MMM d')}
-            
-          />
-          <YAxis domain={[0, 10]} />
-          <Tooltip content={<ChartTooltipContent />} />
-          <Area
-            type="monotone"
-            dataKey="stressLevel"
-            stroke={chartConfig.stressLevel.color}
-            fillOpacity={0.4}
-            fill={chartConfig.stressLevel.color}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+    <ChartContainer config={chartConfig} className="h-[300px] w-full">
+      <AreaChart
+        data={chartData}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 0,
+        }}
+        accessibilityLayer
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis
+          dataKey="date"
+          tickFormatter={(value) => format(new Date(value), 'MMM d')}
+        />
+        <YAxis domain={[0, 10]} />
+        <Tooltip content={<ChartTooltipContent />} />
+        <Area
+          type="monotone"
+          dataKey="stressLevel"
+          stroke={chartConfig.stressLevel.color}
+          fillOpacity={0.4}
+          fill={chartConfig.stressLevel.color}
+        />
+      </AreaChart>
+    </ChartContainer>
   );
 }
