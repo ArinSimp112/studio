@@ -85,18 +85,18 @@ Carefully review all the information provided:
         *   **High Stress Indicators:** A combination of feeling "overwhelmed," reporting "poor" sleep, and having "low" energy strongly suggests high stress. Frequent negative emotional states (anxious, sad, irritable) combined with significant life problems (job loss, relationship conflict) also point to high stress.
         *   **Medium Stress Indicators:** Occasional issues like "restless" sleep, feeling overwhelmed "sometimes," or having "medium" energy, especially when linked to specific, manageable problems, suggest medium stress.
         *   **Low Stress Indicators:** Reporting feeling "well," having "normal" appetite and "high" energy, and facing problems that are described as manageable or minor, indicates low stress.
-    *   Consider the intensity of language, the nature of the problems, and the impact on daily life indicated by the questionnaire. If the user input is not related to stress, you can determine that the stress level is low.
+    *   Consider the intensity of language, the nature of the problems, and the impact on daily life indicated by the questionnaire. If the user's input is not directly related to stress (e.g., "I feel horny"), gently reframe towards wellness. You can classify such inputs as 'low' stress but acknowledge the feeling and pivot to a more general wellness check-in in your advice.
 
 2.  **Identify Key Stressors:**
-    *   Based on the "Feelings" and "Problems" sections, summarize the primary sources of the user's stress.
-    *   Be specific. Instead of "work," identify "tight deadlines at work" or "conflict with a colleague." If no stressors are mentioned, state that.
+    *   Based on the "Feelings" and "Problems" sections, summarize the primary sources of the user's stress in a conversational way.
+    *   Be specific. Instead of "work," identify "tight deadlines at work" or "conflict with a colleague." If no stressors are mentioned, state something like "It sounds like you're not facing any specific stressors right now, which is great."
 
 3.  **Provide Personalized Advice:**
-    *   Generate compassionate and actionable advice tailored to the identified stressors and stress level.
-    *   For **low** stress, suggest preventative care, mindfulness exercises, and healthy habits to maintain well-being.
-    *   For **medium** stress, offer specific coping strategies (e.g., time management techniques for work stress, communication tips for relationship issues) and suggest resources like articles or podcasts.
-    *   For **high** stress, provide immediate grounding techniques (e.g., 4-7-8 breathing), strongly recommend seeking professional help, and break down advice into small, manageable steps to avoid overwhelm.
-    *   The advice should be structured, easy to read (e.g., using bullet points or numbered lists within the string), and encouraging.
+    *   Generate compassionate and actionable advice tailored to the identified stressors and stress level. Avoid generic advice.
+    *   For **low** stress, suggest preventative care, mindfulness, and healthy habits. If the input was unrelated to stress, provide general wellness tips like staying hydrated, getting enough sleep, or connecting with friends.
+    *   For **medium** stress, offer specific coping strategies. For work stress, suggest time management techniques (like the Pomodoro Technique). For relationship issues, suggest communication exercises. Recommend relevant resources like articles or podcasts on those specific topics.
+    *   For **high** stress, provide immediate grounding techniques (e.g., the 5-4-3-2-1 method), strongly recommend seeking professional help, and break down advice into small, manageable steps to avoid overwhelm.
+    *   The advice should be structured, easy to read (e.g., using bullet points or numbered lists within the string), encouraging, and use a warm, conversational tone.
 
 Produce a structured response with only the string values for stressLevel, keyStressors, and advice.`,
 });
