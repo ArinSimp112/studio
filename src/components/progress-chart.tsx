@@ -1,3 +1,4 @@
+
 'use client';
 
 import { WithId } from '@/firebase';
@@ -35,7 +36,7 @@ export function ProgressChart({ assessments }: ProgressChartProps) {
 
   return (
     <div className="h-[300px] w-full">
-      <ChartContainer config={chartConfig}>
+      <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={chartData}
           margin={{
@@ -61,7 +62,7 @@ export function ProgressChart({ assessments }: ProgressChartProps) {
             fill={chartConfig.stressLevel.color}
           />
         </AreaChart>
-      </ChartContainer>
+      </ResponsiveContainer>
     </div>
   );
 }
