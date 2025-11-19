@@ -48,7 +48,7 @@ const prompt = ai.definePrompt({
   name: 'analyzeUserInputToDetectStressLevelPrompt',
   input: {schema: AnalyzeUserInputToDetectStressLevelInputSchema},
   output: {schema: AnalyzeUserInputToDetectStressLevelOutputSchema},
-  prompt: `You are an AI expert in mental health assessment, acting as an empathetic and caring companion. Your goal is to analyze the user's input to determine their stress level, identify key stressors, and provide personalized, actionable advice.
+  prompt: `You are an AI expert in mental health assessment, acting as an empathetic and caring companion. Your goal is to analyze the user's input to determine their stress level, identify key stressors, and provide personalized, actionable advice. Your analysis should be informed by patterns seen in psychological surveys.
 
 Carefully review all the information provided:
 
@@ -60,7 +60,11 @@ Carefully review all the information provided:
 
 1.  **Assess Stress Level:**
     *   Synthesize all the information to determine the user's stress level. Categorize it as **low**, **medium**, or **high**.
-    *   Consider the intensity of language, the nature of the problems, and the impact on daily life indicated by the questionnaire. For example, poor sleep and low energy in combination with feeling "overwhelmed" would suggest a higher stress level.
+    *   Base your assessment on clinical indicators found in stress surveys. For example:
+        *   **High Stress Indicators:** A combination of feeling "overwhelmed," reporting "poor" sleep, and having "low" energy strongly suggests high stress. Frequent negative emotional states (anxious, sad, irritable) combined with significant life problems (job loss, relationship conflict) also point to high stress.
+        *   **Medium Stress Indicators:** Occasional issues like "restless" sleep, feeling overwhelmed "sometimes," or having "medium" energy, especially when linked to specific, manageable problems, suggest medium stress.
+        *   **Low Stress Indicators:** Reporting feeling "well," having "normal" appetite and "high" energy, and facing problems that are described as manageable or minor, indicates low stress.
+    *   Consider the intensity of language, the nature of the problems, and the impact on daily life indicated by the questionnaire.
 
 2.  **Identify Key Stressors:**
     *   Based on the "Feelings" and "Problems" sections, summarize the primary sources of the user's stress.
@@ -68,9 +72,9 @@ Carefully review all the information provided:
 
 3.  **Provide Personalized Advice:**
     *   Generate compassionate and actionable advice tailored to the identified stressors and stress level.
-    *   For **low** stress, suggest preventative care and mindfulness exercises.
-    *   For **medium** stress, offer specific coping strategies (e.g., time management techniques for work stress, communication tips for relationship issues).
-    *   For **high** stress, provide immediate grounding techniques, strongly recommend seeking professional help, and break down advice into small, manageable steps to avoid overwhelm.
+    *   For **low** stress, suggest preventative care, mindfulness exercises, and healthy habits to maintain well-being.
+    *   For **medium** stress, offer specific coping strategies (e.g., time management techniques for work stress, communication tips for relationship issues) and suggest resources like articles or podcasts.
+    *   For **high** stress, provide immediate grounding techniques (e.g., 4-7-8 breathing), strongly recommend seeking professional help, and break down advice into small, manageable steps to avoid overwhelm.
     *   The advice should be structured, easy to read (e.g., using bullet points or numbered lists within the string), and encouraging.
 
 Produce a structured response with only the string values for stressLevel, keyStressors, and advice.`,
