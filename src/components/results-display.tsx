@@ -4,11 +4,17 @@ import type { StressAssessment } from "@/app/schema";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Lightbulb, ShieldAlert, HeartPulse, Stethoscope } from "lucide-react";
+import { Lightbulb, ShieldAlert, HeartPulse, Stethoscope, MapPin, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProgressChart } from "./progress-chart";
 import { WithId } from "@/firebase/firestore/use-collection";
-import { therapists } from "@/lib/therapists";
+import type { Therapist } from "@/lib/therapists";
+import { therapists as allTherapists } from "@/lib/therapists";
+import { Button } from "./ui/button";
+import { useState } from "react";
+import { getCityFromCoords } from "@/app/actions";
+import { useToast } from "@/hooks/use-toast";
+
 
 type ResultsDisplayProps = {
   results: StressAssessment;
@@ -17,6 +23,10 @@ type ResultsDisplayProps = {
 
 export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
   const { keyStressors, advice, stressLevel } = results;
+  const [isLocating, setIsLocating] = useState(false);
+  const [localTherapists, setLocalTherapists] = useState<Therapist[] | null>(null);
+  const { toast } = useToast();
+
 
   const getStressLevelString = (level: number) => {
     if (level <= 4) return "Low";
@@ -51,6 +61,68 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
         return "";
     }
   }
+
+  const handleFindTherapists = () => {
+    setIsLocating(true);
+    if (!navigator.geolocation) {
+      toast({
+        variant: "destructive",
+        title: "Geolocation Not Supported",
+        description: "Your browser does not support geolocation.",
+      });
+      setIsLocating(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const city = await getCityFromCoords({ latitude, longitude });
+          if (city) {
+            const filtered = allTherapists.filter(
+              (t) => t.city.toLowerCase() === city.toLowerCase()
+            );
+            setLocalTherapists(filtered);
+            if (filtered.length === 0) {
+              toast({
+                title: "No Therapists Found Nearby",
+                description: "Showing all available therapists.",
+              });
+            }
+          } else {
+             toast({
+              variant: "destructive",
+              title: "Could Not Determine City",
+              description: "Showing all available therapists.",
+            });
+            setLocalTherapists(null);
+          }
+        } catch (error) {
+          console.error(error);
+          toast({
+              variant: "destructive",
+              title: "Error finding therapists",
+              description: "Could not determine your location.",
+            });
+          setLocalTherapists(null);
+        } finally {
+          setIsLocating(false);
+        }
+      },
+      (error) => {
+        toast({
+          variant: "destructive",
+          title: "Location Access Denied",
+          description: "Please enable location access in your browser settings to find nearby therapists.",
+        });
+        setIsLocating(false);
+        setLocalTherapists(null);
+      }
+    );
+  };
+
+  const therapistsToDisplay = localTherapists !== null ? localTherapists : allTherapists;
 
   return (
     <div className="mt-8 animate-in fade-in duration-500 space-y-8">
@@ -114,17 +186,32 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
 
       <Card className="w-full max-w-3xl mx-auto shadow-lg">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Stethoscope className="h-6 w-6 text-primary" />
-            Find a Therapist
-          </CardTitle>
+          <div className="flex justify-between items-center">
+             <CardTitle className="flex items-center gap-2">
+              <Stethoscope className="h-6 w-6 text-primary" />
+              Find a Therapist
+            </CardTitle>
+            <Button onClick={handleFindTherapists} disabled={isLocating} variant="outline" size="sm">
+              {isLocating ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Locating...
+                </>
+              ) : (
+                <>
+                  <MapPin className="mr-2 h-4 w-4" />
+                  Near Me
+                </>
+              )}
+            </Button>
+          </div>
           <CardDescription>
-            Contact information for mental health professionals in India.
+           {localTherapists === null ? "Contact information for mental health professionals in India." : localTherapists.length > 0 ? `Showing therapists near you.` : `No therapists found in your city. Showing all available therapists.`}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {therapists.map((therapist) => (
+            {therapistsToDisplay.map((therapist) => (
               <div key={therapist.id} className="p-4 border rounded-lg bg-secondary/50">
                 <h3 className="font-bold">{therapist.name}</h3>
                 <p className="text-sm text-muted-foreground">{therapist.specialization}</p>

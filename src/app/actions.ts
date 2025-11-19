@@ -3,8 +3,8 @@
 import {
   analyzeUserInputToDetectStressLevel,
   type AnalyzeUserInputToDetectStressLevelInput,
-  type AnalyzeUserInputToDetectStressLevelOutput,
 } from "@/ai/flows/analyze-user-input-to-detect-stress-level";
+import { getCityFromCoordinates, type GetCityFromCoordinatesInput } from "@/ai/flows/get-city-from-coordinates";
 import { stressSchema, type StressFormState } from "@/app/schema";
 
 
@@ -67,5 +67,15 @@ export async function analyzeStress(
   } catch (error) {
     console.error("AI analysis failed:", error);
     return { success: false, message: "Sorry, we couldn't analyze your stress level at the moment. Please try again.", data: undefined };
+  }
+}
+
+export async function getCityFromCoords(coords: GetCityFromCoordinatesInput): Promise<string | null> {
+  try {
+    const result = await getCityFromCoordinates(coords);
+    return result.city;
+  } catch (error) {
+    console.error("Failed to get city from coordinates:", error);
+    return null;
   }
 }
