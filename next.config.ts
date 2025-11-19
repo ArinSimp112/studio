@@ -33,6 +33,12 @@ const nextConfig: NextConfig = {
         hostname: 'c.tenor.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'estaticosgn-cdn.deia.eus',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
