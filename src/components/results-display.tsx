@@ -15,8 +15,6 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { getCityFromCoords } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import Image from "next/image";
-
 
 type ResultsDisplayProps = {
   results: StressAssessment;
@@ -49,10 +47,9 @@ const LowStressDisplay = () => {
     return (
         <Card className="w-full max-w-3xl mx-auto shadow-lg">
             <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
-                <Image
+                <img
                     src="https://c.tenor.com/6Cuj2B1_n2sAAAAC/u-chill-gng.gif"
                     alt="U Chill Gng"
-                    unoptimized
                     width={150}
                     height={150}
                     className="rounded-lg"
@@ -70,10 +67,9 @@ const MidStressDisplay = () => {
     return (
         <Card className="w-full max-w-3xl mx-auto shadow-lg">
             <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
-                <Image
+                <img
                     src="https://c.tenor.com/5iiSns64iLAAAAAC/huh-cat.gif"
                     alt="Just chill out gng"
-                    unoptimized
                     width={150}
                     height={150}
                     className="rounded-lg"
@@ -91,10 +87,9 @@ const HighStressDisplay = () => {
     return (
         <Card className="w-full max-w-3xl mx-auto shadow-lg">
             <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
-                <Image
+                <img
                     src="https://c.tenor.com/mCgS7bLz-CsAAAAC/cooked-done.gif"
                     alt="U might just be cooked gng"
-                    unoptimized
                     width={150}
                     height={150}
                     className="rounded-lg"
@@ -112,10 +107,9 @@ const SevereStressDisplay = () => {
     return (
         <Card className="w-full max-w-3xl mx-auto shadow-lg">
             <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
-                <Image
+                <img
                     src="https://c.tenor.com/7p-dC0fL3w8AAAAC/you-are-cooked.gif"
                     alt="U are cooked bro"
-                    unoptimized
                     width={150}
                     height={150}
                     className="rounded-lg"
@@ -314,3 +308,5 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
     </div>
   );
 }
+
+    
