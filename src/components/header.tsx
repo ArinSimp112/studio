@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
+import { ThemeToggle } from './theme-toggle';
 
 export function Header() {
   const pathname = usePathname();
@@ -20,13 +21,14 @@ export function Header() {
           Your personal AI companion to understand and manage stress.
         </p>
       </div>
-       <nav className="mt-6 flex justify-center gap-4">
+       <nav className="mt-6 flex justify-center gap-4 items-center">
           <Button asChild variant={pathname === '/' ? 'secondary' : 'ghost'}>
             <Link href="/">Home</Link>
           </Button>
           <Button asChild variant={pathname === '/progress' ? 'secondary' : 'ghost'}>
             <Link href="/progress">Progress</Link>
           </Button>
+          <ThemeToggle />
         </nav>
     </header>
   );
