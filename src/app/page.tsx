@@ -70,9 +70,6 @@ export default function IntroductionPage() {
 
       <footer className="py-8 text-center text-sm text-muted-foreground">
         <p>&copy; StressWise. All rights reserved.</p>
-        <p className="mt-1">
-          Disclaimer: This is an AI-powered tool and not a substitute for professional medical advice.
-        </p>
       </footer>
     </main>
   );
