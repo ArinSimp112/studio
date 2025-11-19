@@ -22,3 +22,16 @@ export type StressFormState = {
   message: string;
   data?: StressAssessment;
 };
+
+// Define the input schema
+export const GetCityFromCoordinatesInputSchema = z.object({
+  latitude: z.number().describe('The latitude of the location.'),
+  longitude: z.number().describe('The longitude of the location.'),
+});
+export type GetCityFromCoordinatesInput = z.infer<typeof GetCityFromCoordinatesInputSchema>;
+
+// Define the output schema
+export const GetCityFromCoordinatesOutputSchema = z.object({
+  city: z.string().describe('The city name corresponding to the coordinates.'),
+});
+export type GetCityFromCoordinatesOutput = z.infer<typeof GetCityFromCoordinatesOutputSchema>;

@@ -3,25 +3,16 @@
  * @fileOverview This file defines a Genkit flow for getting the city from coordinates.
  *
  * - getCityFromCoordinates - The main function to trigger the flow.
- * - GetCityFromCoordinatesInput - The input type for the flow.
- * - GetCityFromCoordinatesOutput - The output type.
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {
+  GetCityFromCoordinatesInputSchema,
+  type GetCityFromCoordinatesInput,
+  GetCityFromCoordinatesOutputSchema,
+  type GetCityFromCoordinatesOutput,
+} from '@/app/schema';
 
-// Define the input schema
-export const GetCityFromCoordinatesInputSchema = z.object({
-  latitude: z.number().describe('The latitude of the location.'),
-  longitude: z.number().describe('The longitude of the location.'),
-});
-export type GetCityFromCoordinatesInput = z.infer<typeof GetCityFromCoordinatesInputSchema>;
-
-// Define the output schema
-export const GetCityFromCoordinatesOutputSchema = z.object({
-  city: z.string().describe('The city name corresponding to the coordinates.'),
-});
-export type GetCityFromCoordinatesOutput = z.infer<typeof GetCityFromCoordinatesOutputSchema>;
 
 // Define the prompt
 const getCityPrompt = ai.definePrompt({

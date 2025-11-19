@@ -4,8 +4,8 @@ import {
   analyzeUserInputToDetectStressLevel,
   type AnalyzeUserInputToDetectStressLevelInput,
 } from "@/ai/flows/analyze-user-input-to-detect-stress-level";
-import { getCityFromCoordinates, type GetCityFromCoordinatesInput } from "@/ai/flows/get-city-from-coordinates";
-import { stressSchema, type StressFormState } from "@/app/schema";
+import { getCityFromCoordinates } from "@/ai/flows/get-city-from-coordinates";
+import { stressSchema, type StressFormState, type GetCityFromCoordinatesInput } from "@/app/schema";
 
 
 export async function analyzeStress(
