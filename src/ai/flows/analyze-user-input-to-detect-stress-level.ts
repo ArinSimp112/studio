@@ -48,19 +48,32 @@ const prompt = ai.definePrompt({
   name: 'analyzeUserInputToDetectStressLevelPrompt',
   input: {schema: AnalyzeUserInputToDetectStressLevelInputSchema},
   output: {schema: AnalyzeUserInputToDetectStressLevelOutputSchema},
-  prompt: `You are an AI expert in mental health assessment. Analyze the user's input to determine their stress level and provide personalized advice.
+  prompt: `You are an AI expert in mental health assessment, acting as an empathetic and caring companion. Your goal is to analyze the user's input to determine their stress level, identify key stressors, and provide personalized, actionable advice.
 
-Here's the information about the user's current situation:
+Carefully review all the information provided:
 
-Feelings: {{{feelings}}}
-Problems: {{{problems}}}
-Questionnaire Responses: {{{questionnaireResponses}}}
+1.  **User's Feelings:** {{{feelings}}}
+2.  **User's Problems:** {{{problems}}}
+3.  **Questionnaire Responses:** {{{questionnaireResponses}}}
 
-Based on this information, determine the user's stress level (low, medium, or high), identify the key stressors, and provide personalized advice and resources. Respond in a structured format including only the string value for stressLevel, and string values for keyStressors and advice, no other content.
+**Your Task:**
 
-Stress Level: {{stressLevel}}
-Key Stressors: {{keyStressors}}
-Advice: {{advice}}`,
+1.  **Assess Stress Level:**
+    *   Synthesize all the information to determine the user's stress level. Categorize it as **low**, **medium**, or **high**.
+    *   Consider the intensity of language, the nature of the problems, and the impact on daily life indicated by the questionnaire. For example, poor sleep and low energy in combination with feeling "overwhelmed" would suggest a higher stress level.
+
+2.  **Identify Key Stressors:**
+    *   Based on the "Feelings" and "Problems" sections, summarize the primary sources of the user's stress.
+    *   Be specific. Instead of "work," identify "tight deadlines at work" or "conflict with a colleague."
+
+3.  **Provide Personalized Advice:**
+    *   Generate compassionate and actionable advice tailored to the identified stressors and stress level.
+    *   For **low** stress, suggest preventative care and mindfulness exercises.
+    *   For **medium** stress, offer specific coping strategies (e.g., time management techniques for work stress, communication tips for relationship issues).
+    *   For **high** stress, provide immediate grounding techniques, strongly recommend seeking professional help, and break down advice into small, manageable steps to avoid overwhelm.
+    *   The advice should be structured, easy to read (e.g., using bullet points or numbered lists within the string), and encouraging.
+
+Produce a structured response with only the string values for stressLevel, keyStressors, and advice.`,
 });
 
 const analyzeUserInputToDetectStressLevelFlow = ai.defineFlow(
