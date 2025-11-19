@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { StressAssessment } from "@/app/schema";
@@ -14,8 +15,6 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { getCityFromCoords } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
-
 
 type ResultsDisplayProps = {
   results: StressAssessment;
@@ -44,85 +43,35 @@ const badgeClass = (levelString: string) => {
   }
 };
 
-const LowStressDisplay = () => {
-    const chillImage = PlaceHolderImages.find(img => img.id === 'chill-dog');
+const StressLevelDisplay = ({ level }: { level: string }) => {
+    let title = "";
+    let message = "";
+
+    switch (level) {
+        case 'Low':
+            title = "U Chill Gng";
+            message = "Your stress levels are low. Keep up the great work!";
+            break;
+        case 'Mid':
+            title = "Just chill out gng";
+            message = "Take it easily. A little stress is normal.";
+            break;
+        case 'High':
+            title = "U might just be cooked gng";
+            message = "Things look a bit tough right now. Check out the advice below.";
+            break;
+        case 'Severe':
+            title = "U are cooked bro";
+            message = "It's important to get support. Please see the resources below.";
+            break;
+    }
 
     return (
         <Card className="w-full max-w-3xl mx-auto shadow-lg">
-            <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
-                {chillImage && (
-                    <img
-                        src={chillImage.imageUrl}
-                        alt={chillImage.description}
-                        data-ai-hint={chillImage.imageHint}
-                        width={150}
-                        height={150}
-                        className="rounded-lg object-cover"
-                    />
-                )}
-                <div className="text-center sm:text-left">
-                    <h3 className="text-2xl font-bold">U Chill Gng</h3>
-                    <p className="text-muted-foreground">Your stress levels are low. Keep up the great work!</p>
-                </div>
-            </CardContent>
-        </Card>
-    );
-};
-
-const MidStressDisplay = () => {
-    return (
-        <Card className="w-full max-w-3xl mx-auto shadow-lg">
-            <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
-                <img
-                    src="https://c.tenor.com/5iiSns64iLAAAAAC/huh-cat.gif"
-                    alt="Just chill out gng"
-                    width={150}
-                    height={150}
-                    className="rounded-lg"
-                />
-                <div className="text-center sm:text-left">
-                    <h3 className="text-2xl font-bold">Just chill out gng</h3>
-                    <p className="text-muted-foreground">Take it easily. A little stress is normal.</p>
-                </div>
-            </CardContent>
-        </Card>
-    );
-};
-
-const HighStressDisplay = () => {
-    return (
-        <Card className="w-full max-w-3xl mx-auto shadow-lg">
-            <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
-                <img
-                    src="https://c.tenor.com/mCgS7bLz-CsAAAAC/cooked-done.gif"
-                    alt="U might just be cooked gng"
-                    width={150}
-                    height={150}
-                    className="rounded-lg"
-                />
-                <div className="text-center sm:text-left">
-                    <h3 className="text-2xl font-bold">U might just be cooked gng</h3>
-                    <p className="text-muted-foreground">Things look a bit tough right now. Check out the advice below.</p>
-                </div>
-            </CardContent>
-        </Card>
-    );
-};
-
-const SevereStressDisplay = () => {
-    return (
-        <Card className="w-full max-w-3xl mx-auto shadow-lg">
-            <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
-                <img
-                    src="https://c.tenor.com/7p-dC0fL3w8AAAAC/you-are-cooked.gif"
-                    alt="U are cooked bro"
-                    width={150}
-                    height={150}
-                    className="rounded-lg"
-                />
-                <div className="text-center sm:text-left">
-                    <h3 className="text-2xl font-bold">U are cooked bro</h3>
-                    <p className="text-muted-foreground">It's important to get support. Please see the resources below.</p>
+            <CardContent className="flex flex-col items-center justify-center p-6 gap-6">
+                <div className="text-center">
+                    <h3 className="text-2xl font-bold">{title}</h3>
+                    <p className="text-muted-foreground">{message}</p>
                 </div>
             </CardContent>
         </Card>
@@ -203,10 +152,7 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
 
   return (
     <div className="mt-8 animate-in fade-in duration-500 space-y-8">
-      {stressLevelString === 'Low' && <LowStressDisplay />}
-      {stressLevelString === 'Mid' && <MidStressDisplay />}
-      {stressLevelString === 'High' && <HighStressDisplay />}
-      {stressLevelString === 'Severe' && <SevereStressDisplay />}
+      <StressLevelDisplay level={stressLevelString} />
 
       <Card className="w-full max-w-3xl mx-auto shadow-lg">
         <CardHeader className="text-center">
