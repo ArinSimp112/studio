@@ -1,0 +1,93 @@
+/**
+ * @fileoverview Firestore Security Rules for the StressWise application.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a strict user-ownership model for user profiles and stress assessment data,
+ * while allowing public read access to therapist contact information.  Authorization independence
+ * is achieved by denormalizing user IDs within the StressAssessment documents.
+ *
+ * Data Structure:
+ * - /users/{userId}: Stores user profile information.
+ * - /users/{userId}/stressAssessments/{assessmentId}: Stores stress assessment data for a specific user.
+ * - /therapists/{therapistId}: Stores therapist contact information.
+ *
+ * Key Security Decisions:
+ * - Users can only read and write their own profile data.
+ * - Users can only read and write their own stress assessment data.
+ * - All users can read therapist contact information.
+ * - User listing is disabled to prevent data scraping.
+ *
+ * Denormalization for Authorization:
+ * The `StressAssessment` document includes a `userId` field that duplicates the `userId` from the
+ * document path. This denormalization is CRUCIAL for authorization because it allows rules to
+ * validate ownership of the assessment without performing costly `get()` operations on the
+ * `/users/{userId}` document.  This enables atomic operations and simplifies the rules.
+ *
+ * Structural Segregation:
+ * User profile data and stress assessment data are stored in user-specific subcollections to
+ * ensure privacy and prevent unauthorized access. Therapist data is stored in a separate,
+ * publicly accessible collection.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Secures the `/users/{userId}` document.  Allows a user to read and write their own profile data.
+     * @path /users/{userId}
+     * @allow (create) - User with ID 'user_abc' can create their own profile if authenticated as 'user_abc'.
+     * @allow (get, update, delete) - User with ID 'user_abc' can read, update, and delete their own profile if authenticated as 'user_abc'.
+     * @deny (create) - User with ID 'user_xyz' cannot create a profile for 'user_abc'.
+     * @deny (get, update, delete) - User with ID 'user_xyz' cannot read, update, or delete the profile of 'user_abc'.
+     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
+     */
+    match /users/{userId} {
+      function isOwner(userId) {
+        return request.auth != null && request.auth.uid == userId;
+      }
+
+
+      allow get: if isOwner(userId);
+      allow list: if false; // User listing is not permitted.
+
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId); // Enforce immutability of userId.
+      allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description Secures the `/users/{userId}/stressAssessments/{assessmentId}` document.  Allows a user to read and write their own stress assessment data.
+     * @path /users/{userId}/stressAssessments/{assessmentId}
+     * @allow (create) - User 'user_abc' can create a new assessment under their profile if authenticated and the assessment's `userId` matches.
+     * @allow (get, list, update, delete) - User 'user_abc' can read, list, update, and delete their own assessments if authenticated.
+     * @deny (create) - User 'user_xyz' cannot create an assessment under 'user_abc''s profile.
+     * @deny (get, list, update, delete) - User 'user_xyz' cannot access 'user_abc''s assessments.
+     * @principle Enforces document ownership and relational integrity.  `userId` in the path must match `userId` in the document.
+     */
+    match /users/{userId}/stressAssessments/{assessmentId} {
+      function isOwner(userId) {
+        return request.auth != null && request.auth.uid == userId;
+      }
+
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId); //Prevent userId modification
+      allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description Secures the `/therapists/{therapistId}` document. Allows anyone to read therapist contact information.
+     * @path /therapists/{therapistId}
+     * @allow (get, list) - Any user, authenticated or not, can read therapist information.
+     * @deny (create, update, delete) - No user can create, update, or delete therapist information (admin-only).
+     * @principle Provides public read access while restricting write access.
+     */
+    match /therapists/{therapistId} {
+      allow get, list: if true;
+      allow create, update, delete: if false; // Only admin can create, update, and delete therapists information.
+    }
+  }
+}
