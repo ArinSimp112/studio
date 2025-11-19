@@ -52,7 +52,7 @@ const LowStressDisplay = () => {
         <Card className="w-full max-w-3xl mx-auto shadow-lg">
             <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
                 {chillImage && (
-                    <Image
+                    <img
                         src={chillImage.imageUrl}
                         alt={chillImage.description}
                         data-ai-hint={chillImage.imageHint}
