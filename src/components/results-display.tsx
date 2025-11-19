@@ -15,6 +15,7 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { getCityFromCoords } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 type ResultsDisplayProps = {
   results: StressAssessment;
@@ -44,16 +45,21 @@ const badgeClass = (levelString: string) => {
 };
 
 const LowStressDisplay = () => {
+    const chillImage = PlaceHolderImages.find(img => img.id === 'chill-dog');
+
     return (
         <Card className="w-full max-w-3xl mx-auto shadow-lg">
             <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
-                <img
-                    src="https://c.tenor.com/6Cuj2B1_n2sAAAAC/u-chill-gng.gif"
-                    alt="U Chill Gng"
-                    width={150}
-                    height={150}
-                    className="rounded-lg"
-                />
+                {chillImage && (
+                    <img
+                        src={chillImage.imageUrl}
+                        alt={chillImage.description}
+                        data-ai-hint={chillImage.imageHint}
+                        width={150}
+                        height={150}
+                        className="rounded-lg object-cover"
+                    />
+                )}
                 <div className="text-center sm:text-left">
                     <h3 className="text-2xl font-bold">U Chill Gng</h3>
                     <p className="text-muted-foreground">Your stress levels are low. Keep up the great work!</p>
@@ -308,5 +314,3 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
     </div>
   );
 }
-
-    
