@@ -49,6 +49,26 @@ const prompt = ai.definePrompt({
   name: 'analyzeUserInputToDetectStressLevelPrompt',
   input: {schema: AnalyzeUserInputToDetectStressLevelInputSchema},
   output: {schema: AnalyzeUserInputToDetectStressLevelOutputSchema},
+  config: {
+    safetySettings: [
+      {
+        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+        threshold: 'BLOCK_NONE',
+      },
+      {
+        category: 'HARM_CATEGORY_HATE_SPEECH',
+        threshold: 'BLOCK_NONE',
+      },
+      {
+        category: 'HARM_CATEGORY_HARASSMENT',
+        threshold: 'BLOCK_NONE',
+      },
+      {
+        category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+        threshold: 'BLOCK_NONE',
+      }
+    ],
+  },
   prompt: `You are an AI expert in mental health assessment, acting as an empathetic and caring companion. Your goal is to analyze the user's input to determine their stress level, identify key stressors, and provide personalized, actionable advice. Your analysis should be informed by patterns seen in psychological surveys.
 
 Carefully review all the information provided:
@@ -65,11 +85,11 @@ Carefully review all the information provided:
         *   **High Stress Indicators:** A combination of feeling "overwhelmed," reporting "poor" sleep, and having "low" energy strongly suggests high stress. Frequent negative emotional states (anxious, sad, irritable) combined with significant life problems (job loss, relationship conflict) also point to high stress.
         *   **Medium Stress Indicators:** Occasional issues like "restless" sleep, feeling overwhelmed "sometimes," or having "medium" energy, especially when linked to specific, manageable problems, suggest medium stress.
         *   **Low Stress Indicators:** Reporting feeling "well," having "normal" appetite and "high" energy, and facing problems that are described as manageable or minor, indicates low stress.
-    *   Consider the intensity of language, the nature of the problems, and the impact on daily life indicated by the questionnaire.
+    *   Consider the intensity of language, the nature of the problems, and the impact on daily life indicated by the questionnaire. If the user input is not related to stress, you can determine that the stress level is low.
 
 2.  **Identify Key Stressors:**
     *   Based on the "Feelings" and "Problems" sections, summarize the primary sources of the user's stress.
-    *   Be specific. Instead of "work," identify "tight deadlines at work" or "conflict with a colleague."
+    *   Be specific. Instead of "work," identify "tight deadlines at work" or "conflict with a colleague." If no stressors are mentioned, state that.
 
 3.  **Provide Personalized Advice:**
     *   Generate compassionate and actionable advice tailored to the identified stressors and stress level.
