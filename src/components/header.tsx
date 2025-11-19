@@ -1,4 +1,4 @@
-import { BrainCircuit } from 'lucide-react';
+import { BrainCog } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -12,7 +12,7 @@ export function Header() {
     <header className="py-8">
       <div className="container mx-auto flex flex-col items-center justify-center gap-4">
         <Link href="/" className="flex items-center gap-4">
-          <BrainCircuit className="h-12 w-12 text-primary" />
+          <BrainCog className="h-12 w-12 text-primary" />
           <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             StressWise
           </h1>
