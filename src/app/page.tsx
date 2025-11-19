@@ -1,9 +1,10 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Header } from '@/components/header';
 import { StressForm } from '@/components/stress-form';
-import { ResultsDisplay } from '@/components/results-display';
 import { Separator } from '@/components/ui/separator';
 import type { StressAssessment } from '@/app/schema';
 import { useAuth, useFirebase, useMemoFirebase } from '@/firebase';
@@ -12,7 +13,7 @@ import { collection, query, orderBy, limit } from 'firebase/firestore';
 import { useCollection, WithId } from '@/firebase/firestore/use-collection';
 
 export default function Home() {
-  const [results, setResults] = useState<StressAssessment | null>(null);
+  const router = useRouter();
   const [assessments, setAssessments] = useState<WithId<StressAssessment>[]>([]);
   const { firestore, user } = useFirebase();
   const auth = useAuth();
@@ -41,13 +42,15 @@ export default function Home() {
 
 
   const handleAnalysisComplete = (analysisResult: StressAssessment) => {
-    setResults(analysisResult);
     if (firestore && user) {
       addDocumentNonBlocking(collection(firestore, `users/${user.uid}/stressAssessments`), {
         ...analysisResult,
         userId: user.uid,
       });
     }
+    // Store result in session storage and redirect
+    sessionStorage.setItem('stressAnalysisResults', JSON.stringify(analysisResult));
+    router.push('/results');
   };
 
   return (
@@ -57,15 +60,6 @@ export default function Home() {
         <section className="mt-8">
           <StressForm setResults={handleAnalysisComplete} />
         </section>
-        
-        {results && (
-          <>
-            <Separator className="my-12" />
-            <section>
-              <ResultsDisplay results={results} assessments={assessments} />
-            </section>
-          </>
-        )}
       </div>
 
       <footer className="py-8 text-center text-sm text-muted-foreground">
