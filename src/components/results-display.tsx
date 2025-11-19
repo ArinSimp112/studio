@@ -16,6 +16,7 @@ import { useState } from "react";
 import { getCityFromCoords } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import Image from "next/image";
 
 type ResultsDisplayProps = {
   results: StressAssessment;
@@ -51,7 +52,7 @@ const LowStressDisplay = () => {
         <Card className="w-full max-w-3xl mx-auto shadow-lg">
             <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
                 {chillImage && (
-                    <img
+                    <Image
                         src={chillImage.imageUrl}
                         alt={chillImage.description}
                         data-ai-hint={chillImage.imageHint}
