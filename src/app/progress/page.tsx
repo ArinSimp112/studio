@@ -1,3 +1,4 @@
+
 'use client';
 import { useEffect, useState } from 'react';
 import { collection, query, orderBy } from 'firebase/firestore';
@@ -32,8 +33,8 @@ export default function ProgressPage() {
   }, [fetchedAssessments]);
 
   const getStressLevelString = (level: number) => {
-    if (level <= 4) return 'Low';
-    if (level <= 7) return 'Medium';
+    if (level <= 39) return 'Low';
+    if (level <= 69) return 'Medium';
     return 'High';
   };
 
@@ -94,7 +95,7 @@ export default function ProgressPage() {
                         <p className="font-semibold">{format(new Date(assessment.assessmentDate), 'PPP p')}</p>
                       </div>
                       <Badge className={cn('capitalize text-sm', badgeClass(assessment.stressLevel))}>
-                        {getStressLevelString(assessment.stressLevel)}
+                        {assessment.stressScore}/100 - {getStressLevelString(assessment.stressLevel)}
                       </Badge>
                     </div>
                   </AccordionTrigger>

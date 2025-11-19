@@ -27,9 +27,11 @@ const AnalyzeUserInputToDetectStressLevelOutputSchema = z.object({
   stressLevel: z
     .string()
     .describe(
-      'The detected stress level of the user (e.g., low, medium, high).' + 
-      'The response must contain only the stress level as a string.'
+      'The detected stress level of the user (e.g., low, medium, high).'
     ),
+  stressScore: z
+    .number()
+    .describe('The detected stress score of the user on a scale of 0 to 100.'),
   keyStressors: z
     .string()
     .describe('A summary of the key stressors identified from the user input.'),
@@ -79,12 +81,13 @@ Carefully review all the information provided:
 
 **Your Task:**
 
-1.  **Assess Stress Level:**
+1.  **Assess Stress Level and Score:**
     *   Synthesize all the information to determine the user's stress level. Categorize it as **low**, **medium**, or **high**.
+    *   Also, provide a numerical **stressScore** on a scale of 0 to 100, where 0 is no stress and 100 is extreme stress.
     *   Base your assessment on clinical indicators found in stress surveys. For example:
-        *   **High Stress Indicators:** A combination of feeling "overwhelmed," reporting "poor" sleep, and having "low" energy strongly suggests high stress. Frequent negative emotional states (anxious, sad, irritable) combined with significant life problems (job loss, relationship conflict) also point to high stress.
-        *   **Medium Stress Indicators:** Occasional issues like "restless" sleep, feeling overwhelmed "sometimes," or having "medium" energy, especially when linked to specific, manageable problems, suggest medium stress.
-        *   **Low Stress Indicators:** Reporting feeling "well," having "normal" appetite and "high" energy, and facing problems that are described as manageable or minor, indicates low stress.
+        *   **High Stress (70-100):** A combination of feeling "overwhelmed," reporting "poor" sleep, and having "low" energy strongly suggests high stress. Frequent negative emotional states (anxious, sad, irritable) combined with significant life problems (job loss, relationship conflict) also point to high stress.
+        *   **Medium Stress (40-69):** Occasional issues like "restless" sleep, feeling overwhelmed "sometimes," or having "medium" energy, especially when linked to specific, manageable problems, suggest medium stress.
+        *   **Low Stress (0-39):** Reporting feeling "well," having "normal" appetite and "high" energy, and facing problems that are described as manageable or minor, indicates low stress.
     *   Consider the intensity of language, the nature of the problems, and the impact on daily life indicated by the questionnaire. If the user's input is not directly related to stress (e.g., "I feel horny"), gently reframe towards wellness. You can classify such inputs as 'low' stress but acknowledge the feeling and pivot to a more general wellness check-in in your advice.
 
 2.  **Identify Key Stressors:**
@@ -98,7 +101,7 @@ Carefully review all the information provided:
     *   For **high** stress, provide immediate grounding techniques (e.g., the 5-4-3-2-1 method), strongly recommend seeking professional help, and break down advice into small, manageable steps to avoid overwhelm.
     *   The advice should be structured, easy to read (e.g., using bullet points or numbered lists within the string), encouraging, and use a warm, conversational tone.
 
-Produce a structured response with only the string values for stressLevel, keyStressors, and advice.`,
+Produce a structured response with the correct data types for stressLevel, stressScore, keyStressors, and advice.`,
 });
 
 const analyzeUserInputToDetectStressLevelFlow = ai.defineFlow(

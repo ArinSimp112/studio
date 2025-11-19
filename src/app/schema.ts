@@ -10,8 +10,10 @@ export const stressSchema = z.object({
   energy: z.string().min(1, "Please select an option."),
 });
 
+// The AI output now includes stressScore directly.
+// We are mapping the AI's stressScore (0-100) to our 'stressLevel' field for consistency in data storage and charting.
 export type StressAssessment = AnalyzeUserInputToDetectStressLevelOutput & {
-  stressLevel: number;
+  stressLevel: number; // This will now hold the score from 0-100
   sentimentInput: string;
   questionnaireResponses: string;
   assessmentDate: string;

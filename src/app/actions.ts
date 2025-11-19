@@ -1,3 +1,4 @@
+
 "use server";
 
 import {
@@ -47,17 +48,9 @@ export async function analyzeStress(
   try {
     const result = await analyzeUserInputToDetectStressLevel(aiInput);
     
-    const stressLevelMap: { [key: string]: number } = {
-      "low": 3,
-      "medium": 6,
-      "high": 9,
-    };
-    const stressLevel = stressLevelMap[result.stressLevel.toLowerCase()] || 5;
-
-
     const dataToSave = {
       ...result,
-      stressLevel,
+      stressLevel: result.stressScore, // Use the 0-100 score for the chart
       sentimentInput: feelings,
       questionnaireResponses,
       assessmentDate: new Date().toISOString()

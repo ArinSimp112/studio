@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { StressAssessment } from "@/app/schema";
@@ -22,15 +23,15 @@ type ResultsDisplayProps = {
 };
 
 export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
-  const { keyStressors, advice, stressLevel } = results;
+  const { keyStressors, advice, stressLevel, stressScore } = results;
   const [isLocating, setIsLocating] = useState(false);
   const [localTherapists, setLocalTherapists] = useState<Therapist[] | null>(null);
   const { toast } = useToast();
 
 
   const getStressLevelString = (level: number) => {
-    if (level <= 4) return "Low";
-    if (level <= 7) return "Medium";
+    if (level <= 39) return "Low";
+    if (level <= 69) return "Medium";
     return "High";
   }
 
@@ -128,9 +129,13 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
     <div className="mt-8 animate-in fade-in duration-500 space-y-8">
       <Card className="w-full max-w-3xl mx-auto shadow-lg">
         <CardHeader className="text-center">
-          <CardTitle className="flex flex-col items-center gap-2">
+          <CardTitle className="flex flex-col items-center gap-4">
             <HeartPulse className="h-10 w-10 text-primary"/>
             <span>Your Stress Analysis</span>
+             <div className="flex items-baseline gap-2">
+               <span className="text-5xl font-bold">{stressScore}</span>
+               <span className="text-xl text-muted-foreground">/ 100</span>
+             </div>
             <Badge 
               variant={badgeVariant()}
               className={cn("capitalize text-base px-4 py-1 rounded-full", badgeClass())}
