@@ -15,12 +15,61 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { getCityFromCoords } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 
 type ResultsDisplayProps = {
   results: StressAssessment;
   assessments: WithId<StressAssessment>[];
 };
+
+const getStressLevelString = (level: number) => {
+  if (level <= 25) return 'Low';
+  if (level <= 50) return 'Mid';
+  if (level <= 75) return 'High';
+  return 'Severe';
+};
+
+const badgeClass = (levelString: string) => {
+  switch (levelString.toLowerCase()) {
+    case 'low':
+      return 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200';
+    case 'mid':
+      return 'bg-yellow-100 text-yellow-800 border-yellow-200 hover:bg-yellow-200';
+    case 'high':
+      return 'bg-orange-100 text-orange-800 border-orange-200 hover:bg-orange-200';
+    case 'severe':
+      return 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200';
+    default:
+      return '';
+  }
+};
+
+const LowStressDisplay = () => {
+    const chillImage = PlaceHolderImages.find(p => p.id === 'chill-dog');
+    return (
+        <Card className="w-full max-w-3xl mx-auto shadow-lg">
+            <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
+                {chillImage && (
+                    <Image
+                        src={chillImage.imageUrl}
+                        alt={chillImage.description}
+                        data-ai-hint={chillImage.imageHint}
+                        width={150}
+                        height={150}
+                        className="rounded-lg"
+                    />
+                )}
+                <div className="text-center sm:text-left">
+                    <h3 className="text-2xl font-bold">U Chill Gng</h3>
+                    <p className="text-muted-foreground">Your stress levels are low. Keep up the great work!</p>
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
+
 
 export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
   const { keyStressors, advice, stressLevel, stressScore } = results;
@@ -29,44 +78,7 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
   const { toast } = useToast();
 
 
-  const getStressLevelString = (level: number) => {
-    if (level <= 25) return 'Low';
-    if (level <= 50) return 'Mid';
-    if (level <= 75) return 'High';
-    return 'Severe';
-  }
-
   const stressLevelString = getStressLevelString(stressLevel);
-
-  const badgeVariant = () => {
-    switch (stressLevelString.toLowerCase()) {
-      case 'low':
-        return 'default';
-      case 'mid':
-        return 'secondary';
-      case 'high':
-        return 'secondary'; // Should be different
-      case 'severe':
-        return 'destructive';
-      default:
-        return 'outline';
-    }
-  };
-  
-  const badgeClass = () => {
-    switch (stressLevelString.toLowerCase()) {
-      case 'low':
-        return 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200';
-      case 'mid':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200 hover:bg-yellow-200';
-      case 'high':
-        return 'bg-orange-100 text-orange-800 border-orange-200 hover:bg-orange-200';
-      case 'severe':
-        return 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200';
-      default:
-        return '';
-    }
-  }
 
   const handleFindTherapists = () => {
     setIsLocating(true);
@@ -132,6 +144,8 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
 
   return (
     <div className="mt-8 animate-in fade-in duration-500 space-y-8">
+      {stressLevelString === 'Low' && <LowStressDisplay />}
+
       <Card className="w-full max-w-3xl mx-auto shadow-lg">
         <CardHeader className="text-center">
           <CardTitle className="flex flex-col items-center gap-4">
@@ -142,8 +156,7 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
                <span className="text-xl text-muted-foreground">/ 100</span>
              </div>
             <Badge 
-              variant={badgeVariant()}
-              className={cn("capitalize text-base px-4 py-1 rounded-full", badgeClass())}
+              className={cn("capitalize text-base px-4 py-1 rounded-full", badgeClass(stressLevelString))}
             >
               {stressLevelString}
             </Badge>
