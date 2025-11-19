@@ -66,6 +66,27 @@ const LowStressDisplay = () => {
     );
 };
 
+const MidStressDisplay = () => {
+    return (
+        <Card className="w-full max-w-3xl mx-auto shadow-lg">
+            <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
+                <Image
+                    src="https://c.tenor.com/5iiSns64iLAAAAAC/huh-cat.gif"
+                    alt="Just chill out gng"
+                    unoptimized
+                    width={150}
+                    height={150}
+                    className="rounded-lg"
+                />
+                <div className="text-center sm:text-left">
+                    <h3 className="text-2xl font-bold">Just chill out gng</h3>
+                    <p className="text-muted-foreground">Take it easily. A little stress is normal.</p>
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
+
 
 export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
   const { keyStressors, advice, stressLevel, stressScore } = results;
@@ -141,6 +162,7 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
   return (
     <div className="mt-8 animate-in fade-in duration-500 space-y-8">
       {stressLevelString === 'Low' && <LowStressDisplay />}
+      {stressLevelString === 'Mid' && <MidStressDisplay />}
 
       <Card className="w-full max-w-3xl mx-auto shadow-lg">
         <CardHeader className="text-center">
