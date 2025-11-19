@@ -2,8 +2,8 @@ import type { AnalyzeUserInputToDetectStressLevelOutput } from "@/ai/flows/analy
 import { z } from "zod";
 
 export const stressSchema = z.object({
-  feelings: z.string().min(10, { message: "Please describe your feelings in a bit more detail." }),
-  problems: z.string().min(10, { message: "Please describe the problems you're facing in a bit more detail." }),
+  feelings: z.string(),
+  problems: z.string(),
   sleep: z.string().min(1, "Please select an option."),
   appetite: z.string().min(1, "Please select an option."),
   overwhelmed: z.string().min(1, "Please select an option."),
