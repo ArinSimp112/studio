@@ -33,9 +33,10 @@ export default function ProgressPage() {
   }, [fetchedAssessments]);
 
   const getStressLevelString = (level: number) => {
-    if (level <= 39) return 'Low';
-    if (level <= 69) return 'Medium';
-    return 'High';
+    if (level <= 25) return 'Low';
+    if (level <= 50) return 'Mid';
+    if (level <= 75) return 'High';
+    return 'Severe';
   };
 
   const badgeClass = (level: number) => {
@@ -43,9 +44,11 @@ export default function ProgressPage() {
     switch (levelString) {
       case 'low':
         return 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200';
-      case 'medium':
+      case 'mid':
         return 'bg-yellow-100 text-yellow-800 border-yellow-200 hover:bg-yellow-200';
       case 'high':
+        return 'bg-orange-100 text-orange-800 border-orange-200 hover:bg-orange-200';
+      case 'severe':
         return 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200';
       default:
         return '';

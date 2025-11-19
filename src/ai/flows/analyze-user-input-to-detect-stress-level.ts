@@ -27,7 +27,7 @@ const AnalyzeUserInputToDetectStressLevelOutputSchema = z.object({
   stressLevel: z
     .string()
     .describe(
-      'The detected stress level of the user (e.g., low, medium, high).'
+      'The detected stress level of the user (e.g., Low, Mid, High, Severe).'
     ),
   stressScore: z
     .number()
@@ -82,23 +82,25 @@ Carefully review all the information provided:
 **Your Task:**
 
 1.  **Assess Stress Level and Score:**
-    *   Synthesize all the information to determine the user's stress level. Categorize it as **low**, **medium**, or **high**.
+    *   Synthesize all the information to determine the user's stress level. Categorize it as **Low**, **Mid**, **High**, or **Severe**.
     *   Also, provide a numerical **stressScore** on a scale of 0 to 100, where 0 is no stress and 100 is extreme stress.
     *   Base your assessment on clinical indicators found in stress surveys. For example:
-        *   **High Stress (70-100):** A combination of feeling "overwhelmed," reporting "poor" sleep, and having "low" energy strongly suggests high stress. Frequent negative emotional states (anxious, sad, irritable) combined with significant life problems (job loss, relationship conflict) also point to high stress.
-        *   **Medium Stress (40-69):** Occasional issues like "restless" sleep, feeling overwhelmed "sometimes," or having "medium" energy, especially when linked to specific, manageable problems, suggest medium stress.
-        *   **Low Stress (0-39):** Reporting feeling "well," having "normal" appetite and "high" energy, and facing problems that are described as manageable or minor, indicates low stress.
+        *   **Severe (76-100):** A combination of feeling "overwhelmed," reporting "poor" sleep, and having "low" energy strongly suggests high stress. Frequent negative emotional states (anxious, sad, irritable) combined with significant life problems (job loss, relationship conflict) also point to high stress.
+        *   **High (51-75):** Occasional issues like "restless" sleep, feeling overwhelmed "sometimes," or having "medium" energy, especially when linked to specific, manageable problems, suggest medium stress.
+        *   **Mid (26-50):** Reports of some stress but still managing daily activities. Might feel tired or have some trouble sleeping, but it's not constant.
+        *   **Low (0-25):** Reporting feeling "well," having "normal" appetite and "high" energy, and facing problems that are described as manageable or minor, indicates low stress.
     *   Consider the intensity of language, the nature of the problems, and the impact on daily life indicated by the questionnaire. If the user's input is not directly related to stress (e.g., "I feel horny"), gently reframe towards wellness. You can classify such inputs as 'low' stress but acknowledge the feeling and pivot to a more general wellness check-in in your advice.
 
 2.  **Identify Key Stressors:**
     *   Based on the "Feelings" and "Problems" sections, summarize the primary sources of the user's stress in a conversational way.
-    *   Be specific. Instead of "work," identify "tight deadlines at work" or "conflict with a colleague." If no stressors are mentioned, state something like "It sounds like you're not facing any specific stressors right now, which is great."
+    *   Be specific. Instead of "work," identify "tight deadlines at work" or "conflict with a colleague." If no stressors are mentioned, state something like "It's great that you're not facing any specific stressors right now."
 
 3.  **Provide Personalized Advice:**
     *   Generate compassionate and actionable advice tailored to the identified stressors and stress level. Avoid generic advice.
-    *   For **low** stress, suggest preventative care, mindfulness, and healthy habits. If the input was unrelated to stress, provide general wellness tips like staying hydrated, getting enough sleep, or connecting with friends.
-    *   For **medium** stress, offer specific coping strategies. For work stress, suggest time management techniques (like the Pomodoro Technique). For relationship issues, suggest communication exercises. Recommend relevant resources like articles or podcasts on those specific topics.
-    *   For **high** stress, provide immediate grounding techniques (e.g., the 5-4-3-2-1 method), strongly recommend seeking professional help, and break down advice into small, manageable steps to avoid overwhelm.
+    *   For **Low** stress, suggest preventative care, mindfulness, and healthy habits. If the input was unrelated to stress, provide general wellness tips like staying hydrated, getting enough sleep, or connecting with friends.
+    *   For **Mid** stress, offer specific coping strategies. For work stress, suggest time management techniques (like the Pomodoro Technique). For relationship issues, suggest communication exercises. Recommend relevant resources like articles or podcasts on those specific topics.
+    *   For **High** stress, provide immediate grounding techniques (e.g., the 5-4-3-2-1 method), strongly recommend seeking professional help, and break down advice into small, manageable steps to avoid overwhelm.
+    *   For **Severe** stress, the advice should be very direct, emphasizing the importance of immediate professional help, providing resources for crisis support, and offering simple, immediate grounding techniques.
     *   The advice should be structured, easy to read (e.g., using bullet points or numbered lists within the string), encouraging, and use a warm, conversational tone.
 
 Produce a structured response with the correct data types for stressLevel, stressScore, keyStressors, and advice.`,
