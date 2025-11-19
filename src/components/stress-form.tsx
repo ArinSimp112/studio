@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 
 import { analyzeStress } from "@/app/actions";
-import { stressSchema } from "@/app/schema";
+import { stressSchema, StressAssessment } from "@/app/schema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -13,10 +13,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import { Bot, Loader2 } from "lucide-react";
-import type { AnalyzeUserInputToDetectStressLevelOutput } from "@/ai/flows/analyze-user-input-to-detect-stress-level";
 
 type StressFormProps = {
-  setResults: (results: AnalyzeUserInputToDetectStressLevelOutput | null) => void;
+  setResults: (results: StressAssessment) => void;
 }
 
 const questionnaireItems = [
@@ -44,7 +43,6 @@ export function StressForm({ setResults }: StressFormProps) {
   const { formState: { isSubmitting } } = form;
 
   async function onSubmit(values: z.infer<typeof stressSchema>) {
-    setResults(null); // Clear previous results
     const formData = new FormData();
     Object.entries(values).forEach(([key, value]) => {
       formData.append(key, value);
@@ -137,7 +135,7 @@ export function StressForm({ setResults }: StressFormProps) {
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit" disabled={isSubmitting} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button type="submit" disabled={isSubmitting} className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

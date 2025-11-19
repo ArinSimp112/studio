@@ -10,8 +10,15 @@ export const stressSchema = z.object({
   energy: z.string().min(1, "Please select an option."),
 });
 
+export type StressAssessment = AnalyzeUserInputToDetectStressLevelOutput & {
+  stressLevel: number;
+  sentimentInput: string;
+  questionnaireResponses: string;
+  assessmentDate: string;
+}
+
 export type StressFormState = {
   success: boolean;
   message: string;
-  data?: AnalyzeUserInputToDetectStressLevelOutput;
+  data?: StressAssessment;
 };

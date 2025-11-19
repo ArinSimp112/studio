@@ -46,7 +46,24 @@ export async function analyzeStress(
 
   try {
     const result = await analyzeUserInputToDetectStressLevel(aiInput);
-    return { success: true, message: "Analysis complete.", data: result };
+    
+    const stressLevelMap: { [key: string]: number } = {
+      "low": 3,
+      "medium": 6,
+      "high": 9,
+    };
+    const stressLevel = stressLevelMap[result.stressLevel.toLowerCase()] || 5;
+
+
+    const dataToSave = {
+      ...result,
+      stressLevel,
+      sentimentInput: feelings,
+      questionnaireResponses,
+      assessmentDate: new Date().toISOString()
+    }
+
+    return { success: true, message: "Analysis complete.", data: dataToSave };
   } catch (error) {
     console.error("AI analysis failed:", error);
     return { success: false, message: "Sorry, we couldn't analyze your stress level at the moment. Please try again.", data: undefined };
