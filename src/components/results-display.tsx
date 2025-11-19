@@ -108,6 +108,27 @@ const HighStressDisplay = () => {
     );
 };
 
+const SevereStressDisplay = () => {
+    return (
+        <Card className="w-full max-w-3xl mx-auto shadow-lg">
+            <CardContent className="flex flex-col sm:flex-row items-center justify-center p-6 gap-6">
+                <Image
+                    src="https://c.tenor.com/7p-dC0fL3w8AAAAC/you-are-cooked.gif"
+                    alt="U are cooked bro"
+                    unoptimized
+                    width={150}
+                    height={150}
+                    className="rounded-lg"
+                />
+                <div className="text-center sm:text-left">
+                    <h3 className="text-2xl font-bold">U are cooked bro</h3>
+                    <p className="text-muted-foreground">It's important to get support. Please see the resources below.</p>
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
+
 
 export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
   const { keyStressors, advice, stressLevel, stressScore } = results;
@@ -185,6 +206,7 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
       {stressLevelString === 'Low' && <LowStressDisplay />}
       {stressLevelString === 'Mid' && <MidStressDisplay />}
       {stressLevelString === 'High' && <HighStressDisplay />}
+      {stressLevelString === 'Severe' && <SevereStressDisplay />}
 
       <Card className="w-full max-w-3xl mx-auto shadow-lg">
         <CardHeader className="text-center">
