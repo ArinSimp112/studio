@@ -50,7 +50,6 @@ export async function analyzeStress(
     
     const dataToSave = {
       ...result,
-      stressLevel: result.stressScore, // Use the 0-100 score for the chart
       sentimentInput: feelings,
       questionnaireResponses,
       assessmentDate: new Date().toISOString()

@@ -25,9 +25,9 @@ export type AnalyzeUserInputToDetectStressLevelInput = z.infer<
 
 const AnalyzeUserInputToDetectStressLevelOutputSchema = z.object({
   stressLevel: z
-    .string()
+    .number()
     .describe(
-      'The detected stress level of the user (e.g., Low, Mid, High, Severe).'
+      'The detected stress level of the user on a scale of 0 to 100.'
     ),
   stressScore: z
     .number()
@@ -82,8 +82,8 @@ Carefully review all the information provided:
 **Your Task:**
 
 1.  **Assess Stress Level and Score:**
-    *   Synthesize all the information to determine the user's stress level. Categorize it as **Low**, **Mid**, **High**, or **Severe**.
-    *   Also, provide a numerical **stressScore** on a scale of 0 to 100, where 0 is no stress and 100 is extreme stress.
+    *   Synthesize all the information to determine the user's stress level. Provide a numerical **stressLevel** on a scale of 0 to 100, where 0 is no stress and 100 is extreme stress.
+    *   Set the **stressScore** to be the exact same value as **stressLevel**.
     *   Base your assessment on clinical indicators found in stress surveys. For example:
         *   **Severe (76-100):** A combination of feeling "overwhelmed," reporting "poor" sleep, and having "low" energy strongly suggests high stress. Frequent negative emotional states (anxious, sad, irritable) combined with significant life problems (job loss, relationship conflict) also point to high stress.
         *   **High (51-75):** Occasional issues like "restless" sleep, feeling overwhelmed "sometimes," or having "medium" energy, especially when linked to specific, manageable problems, suggest medium stress.
