@@ -58,7 +58,12 @@ export async function analyzeStress(
     return { success: true, message: "Analysis complete.", data: dataToSave };
   } catch (error) {
     console.error("AI analysis failed:", error);
-    return { success: false, message: "Sorry, we couldn't analyze your stress level at the moment. Please try again.", data: undefined };
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+    return { 
+      success: false, 
+      message: `Sorry, we couldn't analyze your stress level. Error: ${errorMessage}`, 
+      data: undefined 
+    };
   }
 }
 
