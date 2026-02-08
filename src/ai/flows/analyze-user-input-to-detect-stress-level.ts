@@ -85,10 +85,10 @@ Carefully review all the information provided:
     *   Synthesize all the information to determine the user's stress level. Provide a numerical **stressLevel** on a scale of 0 to 100, where 0 is no stress and 100 is extreme stress.
     *   Set the **stressScore** to be the exact same value as **stressLevel**.
     *   Base your assessment on clinical indicators found in stress surveys. For example:
-        *   **Severe (76-100):** A combination of feeling "overwhelmed," reporting "poor" sleep, and having "low" energy strongly suggests high stress. Frequent negative emotional states (anxious, sad, irritable) combined with significant life problems (job loss, relationship conflict) also point to high stress.
-        *   **High (51-75):** Occasional issues like "restless" sleep, feeling overwhelmed "sometimes," or having "medium" energy, especially when linked to specific, manageable problems, suggest medium stress.
-        *   **Mid (26-50):** Reports of some stress but still managing daily activities. Might feel tired or have some trouble sleeping, but it's not constant.
-        *   **Low (0-25):** Reporting feeling "well," having "normal" appetite and "high" energy, and facing problems that are described as manageable or minor, indicates low stress.
+        *   **76-100:** A combination of feeling "overwhelmed," reporting "poor" sleep, and having "low" energy strongly suggests high stress. Frequent negative emotional states (anxious, sad, irritable) combined with significant life problems (job loss, relationship conflict) also point to high stress.
+        *   **51-75:** Occasional issues like "restless" sleep, feeling overwhelmed "sometimes," or having "medium" energy, especially when linked to specific, manageable problems, suggest medium stress.
+        *   **26-50:** Reports of some stress but still managing daily activities. Might feel tired or have some trouble sleeping, but it's not constant.
+        *   **0-25:** Reporting feeling "well," having "normal" appetite and "high" energy, and facing problems that are described as manageable or minor, indicates low stress.
     *   Consider the intensity of language, the nature of the problems, and the impact on daily life indicated by the questionnaire. If the user's input is not directly related to stress (e.g., "I feel horny"), gently reframe towards wellness. You can classify such inputs as 'low' stress but acknowledge the feeling and pivot to a more general wellness check-in in your advice.
 
 2.  **Identify Key Stressors:**
