@@ -98,7 +98,7 @@ export default function ProgressPage() {
                         <p className="font-semibold">{format(new Date(assessment.assessmentDate), 'PPP p')}</p>
                       </div>
                       <Badge className={cn('capitalize text-sm', badgeClass(assessment.stressLevel))}>
-                        {assessment.stressScore}/100 - {getStressLevelString(assessment.stressLevel)}
+                        {assessment.stressLevel}/100 - {getStressLevelString(assessment.stressLevel)}
                       </Badge>
                     </div>
                   </AccordionTrigger>

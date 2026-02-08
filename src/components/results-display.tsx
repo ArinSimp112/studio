@@ -80,7 +80,7 @@ const StressLevelDisplay = ({ level }: { level: string }) => {
 
 
 export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
-  const { keyStressors, advice, stressLevel, stressScore } = results;
+  const { keyStressors, advice, stressLevel } = results;
   const [isLocating, setIsLocating] = useState(false);
   const [localTherapists, setLocalTherapists] = useState<Therapist[] | null>(null);
   const { toast } = useToast();
@@ -160,7 +160,7 @@ export function ResultsDisplay({ results, assessments }: ResultsDisplayProps) {
             <HeartPulse className="h-10 w-10 text-primary"/>
             <span>Your Stress Analysis</span>
              <div className="flex items-baseline gap-2">
-               <span className="text-5xl font-bold">{stressScore}</span>
+               <span className="text-5xl font-bold">{stressLevel}</span>
                <span className="text-xl text-muted-foreground">/ 100</span>
              </div>
             <Badge 
