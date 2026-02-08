@@ -6,7 +6,7 @@ import {
   type AnalyzeUserInputToDetectStressLevelInput,
 } from "@/ai/flows/analyze-user-input-to-detect-stress-level";
 import { getCityFromCoordinates } from "@/ai/flows/get-city-from-coordinates";
-import { stressSchema, type StressFormState, type GetCityFromCoordinatesInput } from "@/app/schema";
+import { stressSchema, type StressFormState, type StressAssessment, type GetCityFromCoordinatesInput } from "@/app/schema";
 
 
 export async function analyzeStress(
@@ -48,8 +48,20 @@ export async function analyzeStress(
   try {
     const result = await analyzeUserInputToDetectStressLevel(aiInput);
     
-    const dataToSave = {
+    // The AI returns stressLevel as a string, so we parse it.
+    const stressLevelNum = parseInt(result.stressLevel, 10);
+
+    if (isNaN(stressLevelNum)) {
+      return {
+        success: false,
+        message: "AI returned an invalid format for the stress level. Please try again.",
+        data: undefined,
+      };
+    }
+
+    const dataToSave: StressAssessment = {
       ...result,
+      stressLevel: stressLevelNum, // Use the parsed number
       sentimentInput: feelings,
       questionnaireResponses,
       assessmentDate: new Date().toISOString()
